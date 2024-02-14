@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LivreRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,14 @@ class Livre
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $Date_de_parution = null;
+
+    #[ORM\ManyToMany(targetEntity: Categories::class, mappedBy: 'Livres')]
+    private Collection $categories;
+
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -60,6 +70,33 @@ class Livre
     public function setDateDeParution(\DateTimeInterface $Date_de_parution): static
     {
         $this->Date_de_parution = $Date_de_parution;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Categories>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Categories $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+            $category->addLivre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Categories $category): static
+    {
+        if ($this->categories->removeElement($category)) {
+            $category->removeLivre($this);
+        }
 
         return $this;
     }
