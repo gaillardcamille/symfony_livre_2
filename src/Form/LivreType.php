@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Categories;
 use App\Entity\Livre;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,6 +17,11 @@ class LivreType extends AbstractType
             ->add('Titre')
             ->add('Description')
             ->add('Date_de_parution')
+            ->add('Categories', EntityType::class, [
+                'class' => Categories::class,
+                'choice_label' => 'nom',
+                'multiple' => true,
+            ])
         ;
     }
 
