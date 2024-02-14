@@ -17,7 +17,7 @@ class CategoriesType extends AbstractType
             ->add('Nom')
             ->add('Livres', EntityType::class, [
                 'class' => Livre::class,
-'choice_label' => 'nom',
+'choice_label' => 'Titre',
 'multiple' => true,
             ])
         ;
