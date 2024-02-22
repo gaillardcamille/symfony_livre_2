@@ -27,4 +27,15 @@
     </table>
 
     <a href="{{ path('app_dashboard') }}">back to list</a>
+
+
+<h2>Avis :</h2>
+    <ul>
+        {% for avi in avis %}
+            <li>
+                <strong>{{ avi.getNomUser().getEmail() }}</strong> - Note: {{ avi.note }}/5 - {{ avi.commentaire }}
+            </li>
+        {% endfor %}
+    </ul>
+
 {% endblock %}

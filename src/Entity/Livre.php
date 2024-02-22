@@ -28,9 +28,13 @@ class Livre
     #[ORM\ManyToMany(targetEntity: Categories::class, mappedBy: 'Livres')]
     private Collection $categories;
 
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'avis_produit')]
+    private Collection $avis;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->avis = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -96,6 +100,36 @@ class Livre
     {
         if ($this->categories->removeElement($category)) {
             $category->removeLivre($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Avis>
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): static
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis->add($avi);
+            $avi->setAvisProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): static
+    {
+        if ($this->avis->removeElement($avi)) {
+            // set the owning side to null (unless already changed)
+            if ($avi->getAvisProduit() === $this) {
+                $avi->setAvisProduit(null);
+            }
         }
 
         return $this;
