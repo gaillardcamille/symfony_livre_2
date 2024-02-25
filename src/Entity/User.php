@@ -32,6 +32,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: 'nom_user')]
     private Collection $avis;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?CollectionLivre $collectionLivre = null;
+
     public function __construct()
     {
         $this->avis = new ArrayCollection();
@@ -133,6 +136,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $avi->setNomUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCollectionLivre(): ?CollectionLivre
+    {
+        return $this->collectionLivre;
+    }
+
+    public function setCollectionLivre(CollectionLivre $collectionLivre): static
+    {
+        // set the owning side of the relation if necessary
+        if ($collectionLivre->getUser() !== $this) {
+            $collectionLivre->setUser($this);
+        }
+
+        $this->collectionLivre = $collectionLivre;
 
         return $this;
     }
