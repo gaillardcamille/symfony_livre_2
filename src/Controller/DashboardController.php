@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Livre;
 use App\Entity\Avis;
+use App\Entity\User;
 use App\Repository\LivreRepository;
 use App\Repository\AvisRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +23,7 @@ class DashboardController extends AbstractController
 	}
 
 	#[Route('/Livre/{id}', name: 'app_show_livre', methods: ['GET'])]
-	public function show(Livre $livre, AvisRepository $avisRepository): Response
+	public function show_livre(Livre $livre, AvisRepository $avisRepository): Response
 	{
 		// Récupérez les avis associés au livre
 		$avis = $livre->getAvis();
@@ -33,4 +34,12 @@ class DashboardController extends AbstractController
 			'avis' => $avis,
 		]);
 	}
+
+	#[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
+    public function show_user(User $user): Response
+    {
+        return $this->render('dashboard/show_user.html.twig', [
+            'user' => $user,
+        ]);
+    }
 }

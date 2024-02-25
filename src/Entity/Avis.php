@@ -29,6 +29,9 @@ class Avis
     #[ORM\Column(length: 255)]
     private ?string $commentaire = null;
 
+    #[ORM\Column(type: Types::BOOLEAN, options: ["default" => false])]
+    private bool $validation = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +93,18 @@ class Avis
     public function setCommentaire(string $commentaire): static
     {
         $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    public function getValidation(): bool
+    {
+        return $this->validation;
+    }
+
+    public function setValidation(bool $validation): static
+    {
+        $this->validation = $validation;
 
         return $this;
     }

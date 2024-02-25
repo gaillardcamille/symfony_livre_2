@@ -32,9 +32,11 @@
 <h2>Avis :</h2>
     <ul>
         {% for avi in avis %}
+        {% if avi.getValidation()==1 %}
             <li>
                 <strong>{{ avi.getNomUser().getEmail() }}</strong> - Note: {{ avi.note }}/5 - {{ avi.commentaire }}
-            </li>
+               
+            </li> {% endif %}
         {% endfor %}
     </ul>
 
